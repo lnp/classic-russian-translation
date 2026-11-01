@@ -158,32 +158,44 @@ def print_table(results):
 def main():
     if hasattr(sys.stdout, 'reconfigure'):
         sys.stdout.reconfigure(encoding='utf-8', errors='replace')
-    parser = argparse.ArgumentParser(description="Quality Mastery Index (QMI) Translation Evaluator")
+    parser = argparse.ArgumentParser(description="Quality Mastery Index (QMI v1.3.2) Translation Evaluator")
     parser.add_argument("--file", "-f", help="Path to translated JSON file (containing pairs array or list of chapters)")
-    parser.add_argument("--lang", "-l", default="EN", choices=["EN", "DE", "FR"], help="Source language")
+    parser.add_argument("--orig", "-o", help="Path to original source text file")
+    parser.add_argument("--trans", "-t", help="Path to translated Russian text file")
+    parser.add_argument("--title", default="Fragment", help="Title of evaluated section")
+    parser.add_argument("--lang", "-l", default="EN", type=str.upper, choices=["EN", "DE", "FR"], help="Source language (EN, DE, FR)")
     parser.add_argument("--json", action="store_true", help="Output raw JSON report")
     args = parser.parse_args()
 
-    if not args.file:
-        print("QMI Engine v1.2.0 - Specify --file <translated_data.json>")
-        sys.exit(0)
-
-    with open(args.file, "r", encoding="utf-8") as f:
-        data = json.load(f)
-
     results = []
-    if isinstance(data, list):
-        for item in data:
-            if "pairs" in item:
-                src_full = " ".join(p["en"] for p in item["pairs"])
-                ru_full = " ".join(p["ru"] for p in item["pairs"])
-                title = item.get("title", "Chapter")
-                results.append(evaluate_texts(src_full, ru_full, lang=args.lang, title=title))
-    elif isinstance(data, dict) and "pairs" in data:
-        src_full = " ".join(p["en"] for p in data["pairs"])
-        ru_full = " ".join(p["ru"] for p in data["pairs"])
-        title = data.get("title", "Text")
-        results.append(evaluate_texts(src_full, ru_full, lang=args.lang, title=title))
+
+    if args.orig and args.trans:
+        with open(args.orig, "r", encoding="utf-8") as f:
+            src_full = f.read()
+        with open(args.trans, "r", encoding="utf-8") as f:
+            ru_full = f.read()
+        results.append(evaluate_texts(src_full, ru_full, lang=args.lang, title=args.title))
+    elif args.file:
+        with open(args.file, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        if isinstance(data, list):
+            for item in data:
+                if "pairs" in item:
+                    src_full = " ".join(p.get("en", p.get("orig", "")) for p in item["pairs"])
+                    ru_full = " ".join(p.get("ru", "") for p in item["pairs"])
+                    title = item.get("title", "Chapter")
+                    results.append(evaluate_texts(src_full, ru_full, lang=args.lang, title=title))
+        elif isinstance(data, dict) and "pairs" in data:
+            src_full = " ".join(p.get("en", p.get("orig", "")) for p in data["pairs"])
+            ru_full = " ".join(p.get("ru", "") for p in data["pairs"])
+            title = data.get("title", "Text")
+            results.append(evaluate_texts(src_full, ru_full, lang=args.lang, title=title))
+    else:
+        print("QMI Engine v1.3.2 (Calibrated) - Usage:")
+        print("  1. Evaluate JSON file:  python qmi_eval.py --file <data.json> [--lang EN/DE/FR]")
+        print("  2. Evaluate text files: python qmi_eval.py --orig <orig.txt> --trans <ru.txt> [--lang EN/DE/FR] [--title Title]")
+        sys.exit(0)
 
     if args.json:
         print(json.dumps(results, ensure_ascii=False, indent=2))
