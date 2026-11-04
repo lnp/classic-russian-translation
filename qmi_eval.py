@@ -158,7 +158,7 @@ def print_table(results):
 def main():
     if hasattr(sys.stdout, 'reconfigure'):
         sys.stdout.reconfigure(encoding='utf-8', errors='replace')
-    parser = argparse.ArgumentParser(description="Quality Mastery Index (QMI v1.4.1) Translation Evaluator")
+    parser = argparse.ArgumentParser(description="Quality Mastery Index (QMI v1.5.0) Translation Evaluator")
     parser.add_argument("--file", "-f", help="Path to translated JSON file (containing pairs array or list of chapters)")
     parser.add_argument("--orig", "-o", help="Path to original source text file")
     parser.add_argument("--trans", "-t", help="Path to translated Russian text file")
