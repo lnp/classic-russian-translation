@@ -1,9 +1,9 @@
 # Золотой Канон Художественного Перевода (Classic Russian Translation)
 
-[![QMI Metric](https://img.shields.io/badge/QMI-v1.5.0%20(Calibrated)-brightgreen.svg)](AGENTS.md)
-[![Version](https://img.shields.io/badge/Release-v1.5.0-blue.svg)](AGENTS.md)
-[![Audit: Autonomous Critic](https://img.shields.io/badge/Audit-Autonomous%20Critic%20(WMT%20%26%20G--Eval)-orange.svg)](AGENTS.md)
-[![Canon: Russian Classical School](https://img.shields.io/badge/Canon-Russian%20Classical%20School-blue.svg)](AGENTS.md)
+[![QMI Metric](https://img.shields.io/badge/QMI-v1.5.0%20(Calibrated)-brightgreen.svg)](GEMINI.md)
+[![Version](https://img.shields.io/badge/Release-v1.5.0-blue.svg)](GEMINI.md)
+[![Audit: Autonomous Critic](https://img.shields.io/badge/Audit-Autonomous%20Critic%20(WMT%20%26%20G--Eval)-orange.svg)](GEMINI.md)
+[![Canon: Russian Classical School](https://img.shields.io/badge/Canon-Russian%20Classical%20School-blue.svg)](GEMINI.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Универсальный методологический свод, просодический кодекс, система метрической валидации (Quality Mastery Index — QMI v1.5.0) и протокол автономного литературного рецензирования (Autonomous Critic Protocol) для ИИ-агентов.**
@@ -35,8 +35,8 @@
    * [10.5. Стандарт денежной конвертации: Комбинированная модель и продуктовый якорь](#105-стандарт-денежной-конвертации-комбинированная-модель-и-продуктовый-якорь)
    * [10.6. Принцип строгой синхронности и табу на спойлеры](#106-принцип-строгой-синхронности-и-тотальный-запрет-спойлеров-вперед-паровоза-не-бежим)
 11. [Дорожная карта развития: QMI v2.0 Roadmap](#11-дорожная-карта-развития-qmi-v20-roadmap)
-12. [Как подключить Канон к своему ИИ-агенту](#12-как-подключить-канон-к-своему-ии-агенту)
-13. [Структура репозитория и лицензия](#13-структура-репозитория-и-лицензия)
+13. [Как подключить Канон к своему ИИ-агенту (GEMINI.md)](#13-как-подключить-канон-к-своему-ии-агенту-geminimd)
+14. [Структура репозитория и лицензия](#14-структура-репозитория-и-лицензия)
 
 ---
 
@@ -283,7 +283,7 @@ flowchart TD
 invoke_subagent(
     TypeName="autonomous-literary-critic",
     Role="Autonomous Literary Critic",
-    Prompt="Выполни автономный сплошной аудит 100% абзацев Главы N по Разделу 9 AGENTS.md. Верни стандартизированную дефектную ведомость."
+    Prompt="Выполни автономный сплошной аудит 100% абзацев Главы N по Разделу 9 GEMINI.md. Верни стандартизированную дефектную ведомость."
 )
 ```
 
@@ -359,21 +359,21 @@ invoke_subagent(
 
 ---
 
-## 12. Как подключить Канон к своему ИИ-агенту
+## 13. Как подключить Канон к своему ИИ-агенту (GEMINI.md)
 
-1. Скопируйте файл [`AGENTS.md`](AGENTS.md) в корень вашего проекта.
+1. Скопируйте файл [`GEMINI.md`](GEMINI.md) в корень вашего проекта.
 2. В системном промпте или правилах агента (Antigravity `.gemini/rules`, Cursor `.cursorrules`, Claude Code `CLAUDE.md`) укажите:
 ```markdown
-Все переводы художественной литературы выполнять в строгом соответствии с каноном в файле AGENTS.md.
+Все переводы художественной литературы выполнять в строгом соответствии с каноном в файле GEMINI.md.
 Сдача любой главы без запуска автономного критика и без приложения дефектной ведомости категорически запрещена (Zero-Bypass Mandate).
 ```
-3. Зарегистрируйте субагента `autonomous-literary-critic` со специализацией литературного аудитора по Разделу 9 `AGENTS.md`.
+3. Зарегистрируйте субагента `autonomous-literary-critic` со специализацией литературного аудитора по Разделу 9 `GEMINI.md`.
 
 ---
 
-## 13. Структура репозитория и лицензия
+## 14. Структура репозитория и лицензия
 
-* **[`AGENTS.md`](AGENTS.md)** — Полный текст Золотого Канона: писательский свод, метрики QMI и протокол автономного рецензирования.
+* **[`GEMINI.md`](GEMINI.md)** — Полный текст Золотого Канона: писательский свод, метрики QMI и протокол автономного рецензирования.
 * **[`qmi_eval.py`](qmi_eval.py)** — Математический скрипт валидации по формулам QMI v1.5.0.
 * **[`LICENSE`](LICENSE)** — Лицензия MIT.
 
