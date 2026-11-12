@@ -1,7 +1,7 @@
 # Золотой Канон Художественного Перевода (Classic Russian Translation)
 
-[![QMI Metric](https://img.shields.io/badge/QMI-v1.5.0%20(Calibrated)-brightgreen.svg)](AGENTS.md)
-[![Version](https://img.shields.io/badge/Release-v2.1.0-blue.svg)](AGENTS.md)
+[![QMI Metric](https://img.shields.io/badge/QMI-v1.5.5%20(Calibrated)-brightgreen.svg)](AGENTS.md)
+[![Version](https://img.shields.io/badge/Release-v1.5.5-blue.svg)](AGENTS.md)
 [![Audit: Autonomous Critic](https://img.shields.io/badge/Audit-Autonomous%20Critic%20(WMT%20%26%20G--Eval)-orange.svg)](AGENTS.md)
 [![Canon: Russian Classical School](https://img.shields.io/badge/Canon-Russian%20Classical%20School-blue.svg)](AGENTS.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -109,7 +109,7 @@ flowchart TD
 ---
 
 
-## 4. Математическая метрика качества: Quality Mastery Index (QMI v1.5.0)
+## 4. Математическая метрика качества: Quality Mastery Index (QMI v1.5.5)
 
 Для ликвидации субъективизма и превращения художественных требований в строгие математические инварианты разработана интегральная метрика **QMI (Quality Mastery Index)**.
 
@@ -148,6 +148,9 @@ $$U^* = U_{\text{base}} + 0.04 \cdot \ln\left(\max\left(1.0, \frac{N_{\text{orig
 * При $22.0\% \le V_{\text{ratio}} < 24.0\%$ $\rightarrow$ **$S_{\text{verb}} = 9.5 + (V_{\text{ratio}} - 22.0) \cdot 0.25$**;
 * При $20.0\% \le V_{\text{ratio}} < 22.0\%$ $\rightarrow$ **$S_{\text{verb}} = 8.5 + (V_{\text{ratio}} - 20.0) \cdot 0.50$**;
 * При $V_{\text{ratio}} < 20.0\%$ $\rightarrow$ штрафное снижение ниже 8.5 ($S_{\text{verb}} = \max(3.0, 8.5 - (20.0 - V_{\text{ratio}}) \cdot 0.80)$) — критический дефицит действия.
+
+> [!NOTE]
+> **Zero External Dependencies:** Расчет $S_{\text{verb}}$ в `qmi_eval.py` реализован через высокоэффективную эвристику регулярных выражений флексий глаголов, инфинитивов и деепричастий без привлечения тяжелых внешних библиотек морфоанализа (`spacy`, `pymorphy2`). Это позволяет использовать скрипт в любых легковесных окружениях, контейнерах и GitHub Actions с нулевой задержкой на установку пакетов.
 
 #### 4. Индекс стилистической чистоты ($S_{\text{purity}}$)
 Базовый балл 10.0 с бескомпромиссной системой дифференцированных штрафов:
@@ -206,7 +209,12 @@ $$Q_{\text{total}} = 0.25 \cdot S_{\text{vol}} + 0.30 \cdot S_{\text{lex}} + 0.2
 
 ## 8. Использование консольного инструмента `qmi_eval.py`
 
-Репозиторий включает готовый инструмент оценки качества для Python 3.8+:
+Репозиторий включает готовый инструмент оценки качества для Python 3.8+ (**Zero External Dependencies** — работает на стандартной библиотеке Python, установка сторонних пакетов через `pip` не требуется):
+
+```bash
+# 0. Мгновенная проверка на демонстрационном образце (Ralph Ellison, Prologue)
+python qmi_eval.py --file sample_pairs.json --lang en
+```
 
 ```bash
 # 1. Пакетная оценка книги или глав по JSON-файлу (содержащему массив pairs)
@@ -401,13 +409,24 @@ flowchart TD
 
 ## 14. Как подключить Канон к своему ИИ-агенту (AGENTS.md)
 
-1. Скопируйте файл [`AGENTS.md`](AGENTS.md) в корень вашего проекта.
-2. В системном промпте или правилах агента (Antigravity `.gemini/rules`, Cursor `.cursorrules`, Claude Code `CLAUDE.md`) укажите:
-```markdown
-Все переводы художественной литературы выполнять в строгом соответствии с каноном в файле AGENTS.md.
-Сдача любой главы без запуска автономного критика и без приложения дефектной ведомости категорически запрещена (Zero-Bypass Mandate).
-```
-3. Зарегистрируйте субагента `autonomous-literary-critic` со специализацией литературного аудитора по Разделу 9 `AGENTS.md`.
+Файл `AGENTS.md` является открытым просодическим и методологическим регламентом, совместимым с ведущими экосистемами агентного программирования:
+
+1. **Google Antigravity / Gemini CLI:**
+   * Скопируйте `AGENTS.md` в корень проекта или в `.gemini/rules/AGENTS.md`. Правила подхватываются агентом автоматически.
+2. **Cursor IDE:**
+   * Добавьте ссылку на `AGENTS.md` в ваш `.cursorrules`:
+   ```markdown
+   При переводе художественной прозы строго следовать канону в AGENTS.md.
+   ```
+3. **Claude Code (Anthropic):**
+   * Разместите директиву в корневом файле `CLAUDE.md`:
+   ```markdown
+   Художественный перевод классической литературы выполнять строго по AGENTS.md.
+   ```
+4. **OpenAI ChatGPT / Codex:**
+   * Скопируйте содержимое `AGENTS.md` в поле **Custom Instructions** проекта.
+5. **Запуск субагента-критика:**
+   * Зарегистрируйте субагента `autonomous-literary-critic` со специализацией литературного аудитора по Разделу 9 `AGENTS.md` (Zero-Bypass Mandate).
 
 ---
 

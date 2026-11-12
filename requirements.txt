@@ -1,0 +1,3 @@
+# Golden Canon of Russian Literary Translation & QMI Engine (v1.5.5)
+# Python 3.8+ Standard Library only.
+# Zero external dependencies required (no pip install needed).

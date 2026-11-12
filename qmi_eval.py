@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Quality Mastery Index (QMI) Engine
+Quality Mastery Index (QMI v1.5.5) Engine
 Canonical Mathematical Evaluation Tool for Literary AI Agents (EN/DE/FR -> RU)
 Based on the Golden Canon of Russian Literary Translation (Gal, Chukovsky, Lozinsky).
 """
@@ -158,7 +158,7 @@ def print_table(results):
 def main():
     if hasattr(sys.stdout, 'reconfigure'):
         sys.stdout.reconfigure(encoding='utf-8', errors='replace')
-    parser = argparse.ArgumentParser(description="Quality Mastery Index (QMI v1.5.0) Translation Evaluator")
+    parser = argparse.ArgumentParser(description="Quality Mastery Index (QMI v1.5.5) Translation Evaluator")
     parser.add_argument("--file", "-f", help="Path to translated JSON file (containing pairs array or list of chapters)")
     parser.add_argument("--orig", "-o", help="Path to original source text file")
     parser.add_argument("--trans", "-t", help="Path to translated Russian text file")
@@ -182,17 +182,17 @@ def main():
         if isinstance(data, list):
             for item in data:
                 if "pairs" in item:
-                    src_full = " ".join(p.get("en", p.get("orig", "")) for p in item["pairs"])
+                    src_full = " ".join(p.get("en", p.get("orig", p.get("de", p.get("fr", "")))) for p in item["pairs"])
                     ru_full = " ".join(p.get("ru", "") for p in item["pairs"])
                     title = item.get("title", "Chapter")
                     results.append(evaluate_texts(src_full, ru_full, lang=args.lang, title=title))
         elif isinstance(data, dict) and "pairs" in data:
-            src_full = " ".join(p.get("en", p.get("orig", "")) for p in data["pairs"])
+            src_full = " ".join(p.get("en", p.get("orig", p.get("de", p.get("fr", "")))) for p in data["pairs"])
             ru_full = " ".join(p.get("ru", "") for p in data["pairs"])
             title = data.get("title", "Text")
             results.append(evaluate_texts(src_full, ru_full, lang=args.lang, title=title))
     else:
-        print("QMI Engine v1.4.1 (Calibrated) - Usage:")
+        print("QMI Engine v1.5.5 (Calibrated) - Usage:")
         print("  1. Evaluate JSON file:  python qmi_eval.py --file <data.json> [--lang EN/DE/FR]")
         print("  2. Evaluate text files: python qmi_eval.py --orig <orig.txt> --trans <ru.txt> [--lang EN/DE/FR] [--title Title]")
         sys.exit(0)
