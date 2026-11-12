@@ -1,7 +1,7 @@
 # Золотой Канон Художественного Перевода (Classic Russian Translation)
 
-[![QMI Metric](https://img.shields.io/badge/QMI-v1.5.5%20(Calibrated)-brightgreen.svg)](AGENTS.md)
-[![Version](https://img.shields.io/badge/Release-v1.5.5-blue.svg)](AGENTS.md)
+[![QMI Metric](https://img.shields.io/badge/QMI-v1.5.0%20(Calibrated)-brightgreen.svg)](AGENTS.md)
+[![Version](https://img.shields.io/badge/Release-v2.1.1-blue.svg)](AGENTS.md)
 [![Audit: Autonomous Critic](https://img.shields.io/badge/Audit-Autonomous%20Critic%20(WMT%20%26%20G--Eval)-orange.svg)](AGENTS.md)
 [![Canon: Russian Classical School](https://img.shields.io/badge/Canon-Russian%20Classical%20School-blue.svg)](AGENTS.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -109,7 +109,7 @@ flowchart TD
 ---
 
 
-## 4. Математическая метрика качества: Quality Mastery Index (QMI v1.5.5)
+## 4. Математическая метрика качества: Quality Mastery Index (QMI v1.5.0)
 
 Для ликвидации субъективизма и превращения художественных требований в строгие математические инварианты разработана интегральная метрика **QMI (Quality Mastery Index)**.
 
